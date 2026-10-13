@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>高一數學(1) 評量卷複習</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--ink:#1d2430;--mute:#6b7280;--line:#e4e1d8;--acc:#1f5eff;--bad:#c2410c;--badbg:#fff1e8;--good:#15803d;--goodbg:#e9f7ee;--r:10px}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#14161a;--card:#1c1f25;--ink:#e8e9ec;--mute:#9aa1ad;--line:#2b2f37;--acc:#6b9bff;--bad:#fb923c;--badbg:#2a1d14;--good:#4ade80;--goodbg:#13261a}}
+:root[data-theme=dark]{--bg:#14161a;--card:#1c1f25;--ink:#e8e9ec;--mute:#9aa1ad;--line:#2b2f37;--acc:#6b9bff;--bad:#fb923c;--badbg:#2a1d14;--good:#4ade80;--goodbg:#13261a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px 80px}
+header{padding:32px 0 16px}
+h1{margin:0 0 6px;font-size:1.7rem}
+.sub{color:var(--mute);margin:0}
+.bar{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:5px 12px;border-radius:99px;cursor:pointer;font:inherit;font-size:.9rem}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stats{color:var(--mute);font-size:.9rem;margin-left:auto}
+section{margin-top:36px}
+section>h2{font-size:1.25rem;margin:0 0 4px}
+section>.core{color:var(--mute);margin:0 0 14px;font-size:.95rem}
+.formula{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:var(--r);padding:10px 14px;margin:0 0 16px;font-size:.95rem}
+.formula b{display:block;margin-bottom:2px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:12px}
+.q summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.q summary::-webkit-details-marker{display:none}
+.num{font-weight:700;min-width:2.6em;color:var(--mute)}
+.stmt{flex:1}
+.tag{font-size:.75rem;padding:2px 8px;border-radius:99px;white-space:nowrap;margin-top:3px}
+.tag.bad{background:var(--badbg);color:var(--bad)}
+.tag.ok{background:var(--goodbg);color:var(--good)}
+.body{padding:2px 14px 14px 14px;border-top:1px dashed var(--line)}
+.ans{margin:12px 0 6px;font-weight:700}
+.ans span{color:var(--acc)}
+ol{margin:6px 0;padding-left:1.4em}
+.pit{background:var(--badbg);border-radius:8px;padding:8px 12px;margin-top:10px;font-size:.93rem}
+.pit b{color:var(--bad)}
+.try{margin-top:10px;font-size:.93rem;border-top:1px solid var(--line);padding-top:8px}
+.try button{border:1px solid var(--line);background:none;color:var(--acc);border-radius:6px;padding:2px 10px;cursor:pointer;font:inherit;font-size:.85rem;margin-left:6px}
+.try .a{display:none;margin-top:4px;color:var(--good)}
+.note{margin-top:40px;color:var(--mute);font-size:.88rem;border-top:1px solid var(--line);padding-top:14px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>高一數學(1) 評量卷複習</h1>
+<p class="sub">評量卷 2–7｜實數與不等式、絕對值、乘法公式、根式與算幾、指數律。點題目展開解法。</p>
+</header>
+<div class="bar">
+<button class="chip on" data-f="all">全部</button>
+<button class="chip" data-f="bad">只看被扣分的</button>
+<button class="chip" id="expand">全部展開</button>
+<span class="stats" id="stats"></span>
+</div>
+<main id="main"></main>
+<p class="note">解答由 Claude 依照片中的題目重新計算整理。手寫字跡和印刷較淡的部分可能認錯，以老師的標準答案為準；「被扣分」依卷上紅筆標記判斷。</p>
+</div>
+
+<script>
+const D = [
+{
+ id:"6-ineq", title:"評量卷 2　實數與不等式性質", score:"77 分",
+ core:"不等式兩邊乘以負數要變號；平方和為 0，每一項都要是 0。",
+ formula:String.raw`<b>重點</b>$a>b$ 時：加減同一個數方向不變；乘以 $c$ 要看 $c$ 的正負；兩邊平方、取倒數都需要先確定正負。`,
+ qs:[
+ {n:"1", bad:true, mark:"-8", s:String.raw`已知 $a,b,c$ 為實數且 $a>b$，下列何者正確？（多選）(A) $a+c>b+c$　(B) $a-c>b-c$　(C) $ac>bc$　(D) $a^2>b^2$　(E) $\dfrac1a<\dfrac1b$`,
+  a:"(A)(B)",
+  steps:[String.raw`(A)(B)：兩邊同加或同減 $c$，不等號方向不變，對。`,
+         String.raw`(C)：$c$ 若是負數或 0 就不成立（例：$c=-1$，$ac<bc$）。`,
+         String.raw`(D)：$a=1,b=-2$ 時 $a^2=1<4=b^2$，錯。`,
+         String.raw`(E)：$a=1,b=-1$ 時 $\frac1a=1>\frac1b=-1$，錯。`],
+  pit:"多選題只要有一個多選或漏選就會被扣分。判斷「不一定成立」的選項，找一組反例就能排除。",
+  tryq:String.raw`若 $a>b$，則 $-2a$ 與 $-2b$ 誰大？`, tryA:String.raw`$-2a<-2b$（乘負數要變號）`},
+ {n:"2", bad:true, mark:"-15", s:String.raw`已知 $a,b$ 為實數，若 $(3a-15)^2+(2b+4)^2=0$，則 $a+b-5=$？`,
+  a:"−2",
+  steps:[String.raw`實數的平方 $\ge 0$，兩個非負數相加是 0，只能<b>兩個都是 0</b>。`,
+         String.raw`$3a-15=0\Rightarrow a=5$；$2b+4=0\Rightarrow b=-2$。`,
+         String.raw`$a+b-5=5-2-5=-2$。`],
+  pit:"不要展開平方再硬解（會變成一個難解的二次式）。看到「平方 + 平方 = 0」就直接令各項為 0。我從照片看你的計算有展開 $(2b+4)^2$，這題的關鍵是不需要展開。",
+  tryq:String.raw`$(x-1)^2+(y+3)^2=0$，求 $x+y$。`, tryA:String.raw`$x=1,y=-3$，所以 $x+y=-2$`}
+ ]
+},
+{
+ id:"7-abs", title:"評量卷 3　區間與絕對值", score:"12.5 分",
+ core:"絕對值的意義是「到 0 的距離」。等式拆成 ±，不等式看是「小於（夾在中間）」還是「大於（兩邊外）」。",
+ formula:String.raw`<b>口訣</b>$|u|<k\iff -k<u<k$（夾中間，取交集）<br>$|u|>k\iff u>k$ 或 $u<-k$（兩邊外，取聯集）<br>$|u|=|v|\iff u=\pm v$`,
+ qs:[
+ {n:"1(1)", bad:true, s:String.raw`解 $|2x-1|=7$`, a:String.raw`$x=4$ 或 $x=-3$`,
+  steps:[String.raw`$2x-1=7\Rightarrow x=4$`,String.raw`$2x-1=-7\Rightarrow 2x=-6\Rightarrow x=-3$`],
+  pit:String.raw`第二個要移項後再除以 2：$2x=-6$，$x=-3$，不是 $-3.5$。`,
+  tryq:String.raw`解 $|3x+2|=8$`, tryA:String.raw`$x=2$ 或 $x=-\frac{10}{3}$`},
+ {n:"1(2)", bad:true, s:String.raw`解 $3|x-2|=|x+8|$`, a:String.raw`$x=7$ 或 $x=-\dfrac12$`,
+  steps:[String.raw`先把 3 放進絕對值：$|3x-6|=|x+8|$。`,
+         String.raw`$3x-6=x+8\Rightarrow 2x=14\Rightarrow x=7$`,
+         String.raw`$3x-6=-(x+8)\Rightarrow 4x=-2\Rightarrow x=-\frac12$`],
+  pit:String.raw`兩邊都有絕對值時用 $u=\pm v$，不需要平方（平方也行，但像你卷上那樣展開後會得到 $8x^2-52x-28=0$，計算量大又容易錯）。`,
+  tryq:String.raw`解 $|x-1|=2|x+1|$`, tryA:String.raw`$x=-3$ 或 $x=-\frac13$`},
+ {n:"2(1)", bad:true, s:String.raw`解 $|-4x+5|\ge 3$`, a:String.raw`$x\le\dfrac12$ 或 $x\ge 2$`,
+  steps:[String.raw`「$\ge$」是兩邊外：$-4x+5\ge 3$ 或 $-4x+5\le -3$。`,
+         String.raw`$-4x\ge -2\Rightarrow x\le \frac12$（除以負數<b>變號</b>）`,
+         String.raw`$-4x\le -8\Rightarrow x\ge 2$`],
+  pit:"除以負數不等號要反向。你卷上的 $x\\le\\frac{2}{4}$ 方向其實對，另一邊 $x\\ge\\frac84=2$ 也對；答案要寫成「$x\\le\\frac12$ 或 $x\\ge2$」，兩段都要寫在答案欄。",
+  tryq:String.raw`解 $|2x-3|\ge 5$`, tryA:String.raw`$x\ge4$ 或 $x\le-1$`},
+ {n:"2(2)", bad:true, s:String.raw`解 $2\le 2|x-3|<7$`, a:String.raw`$-\dfrac12<x\le 2$ 或 $4\le x<\dfrac{13}{2}$`,
+  steps:[String.raw`全部除以 2：$1\le|x-3|<\frac72$。`,
+         String.raw`$|x-3|<\frac72\Rightarrow -\frac72<x-3<\frac72\Rightarrow -\frac12<x<\frac{13}{2}$`,
+         String.raw`$|x-3|\ge1\Rightarrow x\le2$ 或 $x\ge4$`,
+         String.raw`兩個條件<b>都要滿足</b>（取交集）：$-\frac12<x\le2$ 或 $4\le x<\frac{13}2$。`],
+  pit:"這題是「一個大於、一個小於」的夾擊型，畫數線最不會錯：先畫出 $|x-3|<\\frac72$ 的大區間，再把中間距離小於 1 的挖掉。",
+  tryq:String.raw`解 $1\le|x-2|<3$`, tryA:String.raw`$-1<x\le1$ 或 $3\le x<5$`},
+ {n:"3", bad:true, s:String.raw`若 $|2x+a|\le b$ 之解為 $-2\le x\le5$，求數對 $(a,b)$`, a:"(a, b) = (−3, 7)",
+  steps:[String.raw`$|2x+a|\le b\Rightarrow -b\le 2x+a\le b\Rightarrow \dfrac{-b-a}{2}\le x\le\dfrac{b-a}{2}$`,
+         String.raw`對照 $-2\le x\le5$：$\frac{-b-a}{2}=-2$、$\frac{b-a}{2}=5$`,
+         String.raw`即 $a+b=4$、$b-a=10$，相加得 $b=7$，所以 $a=-3$。`],
+  pit:"把題目給的解當成已知端點去反推，兩個端點列兩個方程式就好。",
+  tryq:String.raw`$|x+a|\le b$ 的解為 $1\le x\le 9$，求 $(a,b)$`, tryA:String.raw`$(a,b)=(-5,4)$`},
+ {n:"4", bad:true, s:String.raw`若 $x$ 為實數且滿足 $|x+3|-|2x-5|=-4$，求 $x$`, a:String.raw`$x=-\dfrac23$ 或 $x=12$`,
+  steps:[String.raw`零點：$x=-3$、$x=\frac52$，把數線切三段。`,
+         String.raw`① $x<-3$：$-(x+3)+(2x-5)=x-8=-4\Rightarrow x=4$，不在範圍內，<b>不合</b>。`,
+         String.raw`② $-3\le x<\frac52$：$(x+3)+(2x-5)=3x-2=-4\Rightarrow x=-\frac23$，在範圍內，<b>合</b>。`,
+         String.raw`③ $x\ge\frac52$：$(x+3)-(2x-5)=-x+8=-4\Rightarrow x=12$，<b>合</b>。`],
+  pit:"零點分段法的最後一步是「檢查解有沒有落在該段範圍內」，第 ① 段算出來的 $x=4$ 就是要被丟掉的。",
+  tryq:String.raw`解 $|x-1|+|x+2|=5$`, tryA:String.raw`$x=-3$ 或 $x=2$`},
+ {n:"5", bad:true, s:String.raw`若 $x$ 為實數且滿足 $2x+3>|x-5|$，求 $x$ 之解`, a:String.raw`$x>\dfrac23$`,
+  steps:[String.raw`$|x-5|<2x+3\iff -(2x+3)<x-5<2x+3$`,
+         String.raw`右邊：$x-5<2x+3\Rightarrow x>-8$`,
+         String.raw`左邊：$-2x-3<x-5\Rightarrow 3x>2\Rightarrow x>\frac23$`,
+         String.raw`取交集：$x>\frac23$。`],
+  pit:String.raw`你卷上寫的 $x>0.625=\frac58$ 是把 $3x>2$ 算成了別的數。可以代入檢查：$x=\frac23$ 時兩邊都等於 $\frac{13}{3}$，不能大於，所以邊界就是 $\frac23$。`,
+  tryq:String.raw`解 $x+4>|2x-1|$`, tryA:String.raw`$-1<x<5$`}
+ ]
+},
+{
+ id:"8-alg", title:"評量卷 4　乘法公式、因式分解與分式", score:"15 分",
+ core:"背熟立方和差、完全平方。分式運算先通分，分子展開前先看有沒有公式可以套。",
+ formula:String.raw`<b>公式</b>$(a\pm b)^3=a^3\pm3a^2b+3ab^2\pm b^3$<br>$a^3+b^3=(a+b)(a^2-ab+b^2)$、$a^3-b^3=(a-b)(a^2+ab+b^2)$<br>$a^2-b^2=(a+b)(a-b)$`,
+ qs:[
+ {n:"1(1)", bad:true, s:String.raw`展開 $(2x+y)^3$`, a:String.raw`$8x^3+12x^2y+6xy^2+y^3$`,
+  steps:[String.raw`套 $(a+b)^3$，$a=2x,b=y$：`,String.raw`$(2x)^3+3(2x)^2y+3(2x)y^2+y^3$`,String.raw`$=8x^3+12x^2y+6xy^2+y^3$`],
+  pit:"立方是三次，卷上只乘到平方（$4x^2+4xy+y^2$）就停了。係數 $a^3$ 要把括號內的 2 也一起立方（$2^3=8$）。",
+  tryq:String.raw`展開 $(x-3)^3$`, tryA:String.raw`$x^3-9x^2+27x-27$`},
+ {n:"1(2)", bad:true, s:String.raw`化簡 $(x-2)(x+2)(x^2-2x+4)(x^2+2x+4)$`, a:String.raw`$x^6-64$`,
+  steps:[String.raw`重新配對：$(x-2)(x^2+2x+4)=x^3-8$（立方差）`,
+         String.raw`$(x+2)(x^2-2x+4)=x^3+8$（立方和）`,
+         String.raw`$(x^3-8)(x^3+8)=x^6-64$`],
+  pit:"這題設計就是要你配對成立方公式。把 $(x-2)(x+2)$ 先乘成 $x^2-4$ 會錯過它。你卷上寫成 $(x+2)^3(x-2)^3$ 不成立。",
+  tryq:String.raw`化簡 $(x+1)(x^2-x+1)(x-1)(x^2+x+1)$`, tryA:String.raw`$x^6-1$`},
+ {n:"2(1)", bad:true, s:String.raw`因式分解 $a^2-2ab+b^2-c^2$`, a:String.raw`$(a-b+c)(a-b-c)$`,
+  steps:[String.raw`前三項是完全平方：$(a-b)^2-c^2$`,String.raw`平方差：$(a-b+c)(a-b-c)$`],
+  pit:"你寫的 $(a-b+c)(a+b-c)$ 第二個括號符號放錯。檢查方法：展開看有沒有 $-2ab$。",
+  tryq:String.raw`分解 $x^2+4x+4-y^2$`, tryA:String.raw`$(x+2+y)(x+2-y)$`},
+ {n:"2(2)", bad:true, s:String.raw`因式分解 $8x^3-64$`, a:String.raw`$(2x-4)(4x^2+8x+16)$（或 $8(x-2)(x^2+2x+4)$）`,
+  steps:[String.raw`$8x^3-64=(2x)^3-4^3$`,String.raw`立方差：$(2x-4)\big[(2x)^2+(2x)(4)+4^2\big]$`,String.raw`$=(2x-4)(4x^2+8x+16)$`,String.raw`可再提 $8$：$8(x-2)(x^2+2x+4)$。`],
+  pit:"立方差第二個括號是「<b>加號</b>」：$a^2+ab+b^2$，中間項是正的。口訣：差的括號內都是正，和的括號內是 $a^2-ab+b^2$。",
+  tryq:String.raw`分解 $27x^3+1$`, tryA:String.raw`$(3x+1)(9x^2-3x+1)$`},
+ {n:"3", bad:true, s:String.raw`化簡 $\dfrac{x^2+2x+4}{x+2}-\dfrac{x^2-2x+4}{x-2}$`, a:String.raw`$\dfrac{-16}{x^2-4}$`,
+  steps:[String.raw`通分，公分母 $(x+2)(x-2)=x^2-4$。`,
+         String.raw`分子：$(x^2+2x+4)(x-2)-(x^2-2x+4)(x+2)$`,
+         String.raw`$=(x^3-8)-(x^3+8)=-16$`,
+         String.raw`結果 $\dfrac{-16}{x^2-4}$。`],
+  pit:"分子乘出來是立方差和立方和，不用硬乘。通分時要注意減號要<b>整個分子</b>一起變號，你的 $x^3-27$ 應該是 $x^3-8$。",
+  tryq:String.raw`化簡 $\dfrac1{x-1}-\dfrac1{x+1}$`, tryA:String.raw`$\dfrac{2}{x^2-1}$`},
+ {n:"4", bad:false, s:String.raw`$a>b$，$a+b=6$，$ab=-16$，求 $a^3-b^3$`, a:"520 ✓",
+  steps:[String.raw`$(a-b)^2=(a+b)^2-4ab=36+64=100$，$a>b\Rightarrow a-b=10$`,
+         String.raw`$a^3-b^3=(a-b)(a^2+ab+b^2)=10\big[(a+b)^2-ab\big]=10(36+16)=520$`],
+  pit:"這題你答對了。"},
+ {n:"5", bad:true, mark:"-30", s:String.raw`已知 $x>0$ 且 $x-\dfrac1x=2$，求 (1) $x^2+\dfrac1{x^2}$　(2) $x+\dfrac1x$`, a:String.raw`(1) $6$　(2) $2\sqrt2$`,
+  steps:[String.raw`(1) $\left(x-\frac1x\right)^2=x^2-2+\frac1{x^2}=4\Rightarrow x^2+\frac1{x^2}=6$`,
+         String.raw`(2) $\left(x+\frac1x\right)^2=x^2+2+\frac1{x^2}=6+2=8$`,
+         String.raw`因 $x>0$，$x+\frac1x>0$，所以 $x+\frac1x=2\sqrt2$。`],
+  pit:String.raw`平方時中間項 $2\cdot x\cdot\frac1x=2$，所以平方後是「$x^2+\frac1{x^2}$ 加減 2」。(1) 是 $4+2$，不是 $4$。開根號取正值，要用題目給的 $x>0$ 判斷。`,
+  tryq:String.raw`$x+\dfrac1x=3$，求 $x^2+\dfrac1{x^2}$`, tryA:"7"}
+ ]
+},
+{
+ id:"9-radical", title:"評量卷 5　根式與算幾不等式", score:"50 分",
+ core:"雙重根式要找「和為 a、積為 b」的兩數；算幾不等式要同時檢查「正數、乘積固定或和固定、等號可成立」。",
+ formula:String.raw`<b>雙重根式</b>$\sqrt{(a+b)\pm2\sqrt{ab}}=\sqrt a\pm\sqrt b$（$a>b$）<br><b>算幾</b>$x,y>0$：$\dfrac{x+y}{2}\ge\sqrt{xy}$，等號成立時 $x=y$`,
+ qs:[
+ {n:"1(1)", bad:true, s:String.raw`化簡 $\sqrt{7-\sqrt{24}}$`, a:String.raw`$\sqrt6-1$`,
+  steps:[String.raw`先化成 $2\sqrt{\ }$ 的形式：$\sqrt{24}=2\sqrt6$，所以是 $\sqrt{7-2\sqrt6}$。`,
+         String.raw`找兩數和 7、積 6：$6$ 和 $1$。`,
+         String.raw`$\sqrt{7-2\sqrt6}=\sqrt6-\sqrt1=\sqrt6-1$`],
+  pit:String.raw`根號前面一定要有「2」才能套（$\sqrt{24}$ 要先寫成 $2\sqrt6$，積是 6，不是 24）。結果記得 <b>大根號減小根號</b>，才會是正數。`,
+  tryq:String.raw`化簡 $\sqrt{8-2\sqrt{15}}$`, tryA:String.raw`$\sqrt5-\sqrt3$`},
+ {n:"1(2)", bad:true, s:String.raw`化簡 $\sqrt{12+6\sqrt3}$`, a:String.raw`$3+\sqrt3$`,
+  steps:[String.raw`$6\sqrt3=2\sqrt{27}$，所以是 $\sqrt{12+2\sqrt{27}}$。`,
+         String.raw`和 12、積 27：$9$ 和 $3$。`,
+         String.raw`$\sqrt9+\sqrt3=3+\sqrt3$`],
+  pit:String.raw`$6\sqrt3$ 要變成 $2\sqrt{\ }$：$6\sqrt3=2\cdot3\sqrt3=2\sqrt{27}$，係數 3 要平方後放進根號。`,
+  tryq:String.raw`化簡 $\sqrt{9+4\sqrt5}$`, tryA:String.raw`$2+\sqrt5$`},
+ {n:"2", bad:true, mark:"-15", s:String.raw`$a,b$ 為有理數，$3(2+\sqrt2)+2\left(\dfrac1{2+\sqrt2}\right)=a+b\sqrt2$，求 $(a,b)$`, a:"(a, b) = (8, 2)",
+  steps:[String.raw`有理化：$\dfrac1{2+\sqrt2}=\dfrac{2-\sqrt2}{(2+\sqrt2)(2-\sqrt2)}=\dfrac{2-\sqrt2}{2}$`,
+         String.raw`$2\times\dfrac{2-\sqrt2}2=2-\sqrt2$`,
+         String.raw`$6+3\sqrt2+2-\sqrt2=8+2\sqrt2$，所以 $(a,b)=(8,2)$。`],
+  pit:"分母有根號就乘共軛有理化。最後 $\\sqrt2$ 的係數是 $3-1=2$，你的 5 應該是漏減了有理化出來的 $-\\sqrt2$。",
+  tryq:String.raw`化簡 $\dfrac{3}{\sqrt5-\sqrt2}$`, tryA:String.raw`$\sqrt5+\sqrt2$`},
+ {n:"3", bad:false, s:String.raw`$a>0$，$a+\dfrac4a$ 有最小值 $m$，此時 $a=n$，求 $(m,n)$`, a:"(4, 2) ✓",
+  steps:[String.raw`算幾：$a+\frac4a\ge2\sqrt{a\cdot\frac4a}=4$`,String.raw`等號：$a=\frac4a\Rightarrow a=2$。`],
+  pit:"這題你答對了。"},
+ {n:"4", bad:false, s:String.raw`$x,y>0$，$4x+9y=24$。(1) $\dfrac{xy}{2}$ 最大值　(2) 此時 $(x,y)$`, a:String.raw`(1) $2$　(2) $\left(3,\dfrac43\right)$ ✓`,
+  steps:[String.raw`$24=4x+9y\ge2\sqrt{36xy}=12\sqrt{xy}\Rightarrow xy\le4$，所以 $\frac{xy}2\le2$。`,
+         String.raw`等號：$4x=9y=12\Rightarrow x=3,\ y=\frac43$。`],
+  pit:"這題你答對了。"},
+ {n:"5", bad:true, mark:"-15", s:String.raw`$x,y>0$，$xy=\dfrac{200}{3}$。(1) $3x+2y$ 最小值　(2) 此時 $(x,y)$`, a:String.raw`(1) $40$　(2) $\left(\dfrac{20}{3},10\right)$`,
+  steps:[String.raw`乘積固定求和的最小值：$3x+2y\ge2\sqrt{3x\cdot2y}=2\sqrt{6xy}$`,
+         String.raw`$6xy=6\cdot\frac{200}{3}=400$，所以 $3x+2y\ge2\sqrt{400}=40$。`,
+         String.raw`等號：$3x=2y=20\Rightarrow x=\frac{20}3,\ y=10$。`],
+  pit:"算幾要用在「<b>兩項的乘積是定值</b>」：$3x$ 和 $2y$ 相乘 $=6xy$ 才是定值，所以要先配出 $3x\\cdot2y$。等號是把兩項設相等，各自等於和的一半（$40\\div2=20$）。",
+  tryq:String.raw`$x,y>0$，$xy=8$，求 $x+2y$ 的最小值`, tryA:"8（此時 $x=4,y=2$）"}
+ ]
+},
+{
+ id:"10-exp", title:"評量卷 6　指數律與有理數指數", score:"35 分",
+ core:"先把底數化成質因數（2、3、5），再用指數律加減乘除指數。有理指數的分母是開根、分子是次方。",
+ formula:String.raw`<b>指數律</b>$a^m a^n=a^{m+n}$、$\dfrac{a^m}{a^n}=a^{m-n}$、$(a^m)^n=a^{mn}$、$a^{-n}=\dfrac1{a^n}$、$a^{\frac mn}=\sqrt[n]{a^m}$`,
+ qs:[
+ {n:"1", bad:false, s:String.raw`(1) $(2^3)^3\times4^{-3}\times8^2$　(2) $\dfrac{15^2\times45^2}{3^5\times5^3}$`, a:"(1) 512　(2) 15 ✓",
+  steps:[String.raw`(1) $2^9\cdot2^{-6}\cdot2^6=2^9=512$`,String.raw`(2) $\dfrac{3^2 5^2\cdot3^4 5^2}{3^5 5^3}=3^{6-5}5^{4-3}=15$`],
+  pit:"這兩題你答對了。"},
+ {n:"2(1)", bad:true, mark:"-15", s:String.raw`$\sqrt[6]{8^2}\times125^{\frac12}\times\sqrt5$`, a:"50",
+  steps:[String.raw`$\sqrt[6]{8^2}=\sqrt[6]{2^6}=2$`,String.raw`$125^{\frac12}=\sqrt{125}=5\sqrt5$`,String.raw`$2\times5\sqrt5\times\sqrt5=2\times5\times5=50$`],
+  pit:"全部變成同底（或根號的乘積）最穩。$\\sqrt5\\times\\sqrt5=5$ 要記得。",
+  tryq:String.raw`$\sqrt[3]{27}\times4^{\frac12}\times8^{\frac13}$`, tryA:"12（$3\\times2\\times2$）"},
+ {n:"2(2)", bad:true, mark:"-15", s:String.raw`$\left(\dfrac{16}{25}\right)^{\frac32}\times\left(\dfrac8{125}\right)^{-\frac23}\times\left(\dfrac15\right)^{-5}$`, a:"10000",
+  steps:[String.raw`$\left(\frac{16}{25}\right)^{\frac32}=\left(\frac45\right)^3=\frac{64}{125}$`,
+         String.raw`$\left(\frac8{125}\right)^{-\frac23}=\left(\frac25\right)^{-2}=\left(\frac52\right)^2=\frac{25}4$`,
+         String.raw`$\left(\frac15\right)^{-5}=5^5=3125$`,
+         String.raw`$\frac{64}{125}\times\frac{25}{4}\times3125=\frac{16}{5}\times3125=10000$`],
+  pit:String.raw`負指數 = 倒數；分數指數 $\frac32$ 先開根號（16/25 開根是 4/5）再三次方。先把整個括號底數化成「某數的次方」（$\frac{16}{25}=(\frac45)^2$、$\frac8{125}=(\frac25)^3$）最快。`,
+  tryq:String.raw`$\left(\dfrac49\right)^{-\frac12}$`, tryA:String.raw`$\dfrac32$`},
+ {n:"3", bad:false, s:String.raw`$x,y,z>0$，$x^2=y^3$，$y^{-2}=z^4$，若 $x^{-2}\cdot y^5\cdot z^2=x^k$，求 $k$`, a:String.raw`$\dfrac23$ ✓`,
+  steps:[String.raw`全部用 $x$ 表示：$y=x^{2/3}$，$z^2=(y^{-2})^{1/2}=y^{-1}=x^{-2/3}$。`,
+         String.raw`$x^{-2}\cdot x^{10/3}\cdot x^{-2/3}=x^{-2+\frac{10}3-\frac23}=x^{2/3}$`],
+  pit:"這題你答對了。"},
+ {n:"4", bad:true, mark:"-15", s:String.raw`$a>0$，若 $a+a^{-1}=5$，求 $a^2+a^{-2}$`, a:"23",
+  steps:[String.raw`$\left(a+a^{-1}\right)^2=a^2+2+a^{-2}=25$`,String.raw`$a^2+a^{-2}=25-2=23$`],
+  pit:"平方後中間有 $2\\cdot a\\cdot a^{-1}=2$，記得<b>減掉</b>，不是直接寫 25。",
+  tryq:String.raw`$a+a^{-1}=4$，求 $a^2+a^{-2}$`, tryA:"14"},
+ {n:"5", bad:true, mark:"-20", s:String.raw`$a>0,b>0$，$a^3=16$，$b^2=27$，求 $a^{\frac32}-b^{\frac43}$`, a:"−5",
+  steps:[String.raw`$a^{\frac32}=\left(a^3\right)^{\frac12}=16^{\frac12}=4$`,
+         String.raw`$b^{\frac43}=\left(b^2\right)^{\frac23}=27^{\frac23}=(3^3)^{\frac23}=3^2=9$`,
+         String.raw`$4-9=-5$`],
+  pit:"不要硬解出 $a=\\sqrt[3]{16}$。把要求的式子湊成題目給的 $a^3$、$b^2$ 的次方：$\\frac32=3\\times\\frac12$、$\\frac43=2\\times\\frac23$。",
+  tryq:String.raw`$a^4=81$，$a>0$，求 $a^{\frac32}$`, tryA:String.raw`$a=3$，$3^{3/2}=3\sqrt3$`}
+ ]
+},
+{
+ id:"11-sci", title:"評量卷 7　科學記號與指數應用", score:"尚未批改",
+ core:"科學記號先對齊次方再加減；有效數字看題目要求取幾位。成長／衰減題用「每隔固定時間變成幾倍」。",
+ formula:String.raw`<b>科學記號</b>$a\times10^n$，$1\le a<10$<br><b>衰減</b>每經過一個週期乘以 $r$：$N=N_0\cdot r^{t/T}$`,
+ qs:[
+ {n:"1(1)", s:String.raw`$1.5\times10^6+3.3\times10^5-5.6\times10^5$（係數取二位有效數字）`, a:String.raw`$1.3\times10^6$`,
+  steps:[String.raw`同換成 $10^5$：$15+3.3-5.6=12.7$，即 $12.7\times10^5=1.27\times10^6$`,String.raw`取二位有效數字：$1.3\times10^6$`],
+  pit:"你的答案與此相同。"},
+ {n:"1(2)", s:String.raw`$(1.2\times10^5)\div(5\times10^3)\times(2.5\times10^4)$`, a:String.raw`$6.0\times10^5$`,
+  steps:[String.raw`係數：$1.2\div5\times2.5=0.6$；次方：$10^{5-3+4}=10^6$`,String.raw`$0.6\times10^6=6.0\times10^5$`],
+  pit:"你的答案與此相同。"},
+ {n:"2(1)", s:String.raw`$\dfrac{4^{\sqrt3}\times16^{\frac{\sqrt3}2}}{8^{\frac{4\sqrt3}3}}$`, a:"1",
+  steps:[String.raw`分子：$2^{2\sqrt3}\cdot2^{2\sqrt3}=2^{4\sqrt3}$`,String.raw`分母：$(2^3)^{\frac{4\sqrt3}3}=2^{4\sqrt3}$`,String.raw`相除 $=2^0=1$`],
+  pit:"你的答案與此相同。化成同底最重要。"},
+ {n:"2(2)", s:String.raw`$\dfrac{\left(3^{-\sqrt3}\times5^{-2\sqrt3}\right)^{-\sqrt3}}{\left(3^{2\sqrt5}\times5^{5\sqrt5}\right)^{\frac1{\sqrt5}}}$`, a:"15",
+  steps:[String.raw`分子：$3^{3}\cdot5^{6}$（$(-\sqrt3)(-\sqrt3)=3$，$(-2\sqrt3)(-\sqrt3)=6$）`,
+         String.raw`分母：$3^{2}\cdot5^{5}$（$2\sqrt5\cdot\frac1{\sqrt5}=2$，$5\sqrt5\cdot\frac1{\sqrt5}=5$）`,String.raw`$3^{3-2}\cdot5^{6-5}=15$`],
+  pit:"你的答案與此相同。"},
+ {n:"3", s:String.raw`實驗室 2024/1/1 有放射性物質 200 克，到 2027/1/1 剩 100 克，依此情形減少。(1) 2033/1/1 剩幾克？(2) 到哪一年 1 月 1 日剩 3.125 克？`, a:"(1) 25 克　(2) 2042 年",
+  steps:[String.raw`3 年減半，半衰期 $T=3$ 年。`,
+         String.raw`(1) 2024→2033 共 9 年 = 3 個週期：$200\times\left(\frac12\right)^3=25$ 克。`,
+         String.raw`(2) $3.125=\frac{200}{64}=200\times\left(\frac12\right)^6$，6 個週期 = 18 年，$2024+18=2042$。`],
+  pit:"先找「多久變成幾倍」，再算經過幾個週期。答案與你卷上相同。"},
+ {n:"4", s:String.raw`每經過 1 天，病毒數量變為前一天的 $a$ 倍。服藥第 3 天後 $1.2\times10^4$ 個，第 5 天後 $3\times10^3$ 個，求第 8 天後的數量`, a:"375 個",
+  steps:[String.raw`第 3 天到第 5 天共 2 天：$a^2=\frac{3000}{12000}=\frac14\Rightarrow a=\frac12$。`,
+         String.raw`第 3 天到第 8 天共 5 天：$12000\times\left(\frac12\right)^5=\frac{12000}{32}=375$。`],
+  pit:"答案與你卷上相同。注意「幾天後」算的是兩個時間點之間隔了幾天。"}
+ ]
+}
+];
+
+const main=document.getElementById('main');
+let html='';
+for(const c of D){
+  html+=`<section id="${c.id}"><h2>${c.title}　<small style="color:var(--mute);font-weight:400">${c.score}</small></h2><p class="core">${c.core}</p><div class="formula">${c.formula}</div>`;
+  for(const q of c.qs){
+    const tag=q.bad?`<span class="tag bad">${q.mark?'扣 '+q.mark.replace('-','')+' 分':'被扣分'}</span>`:(q.bad===false?`<span class="tag ok">答對</span>`:'');
+    html+=`<details class="q" data-bad="${q.bad?1:0}"><summary><span class="num">${q.n}</span><span class="stmt">${q.s}</span>${tag}</summary><div class="body"><div class="ans">答案：<span>${q.a}</span></div><ol>${q.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${q.pit?`<div class="pit"><b>${q.bad?'容易錯的地方':'備註'}</b>　${q.pit}</div>`:''}${q.tryq?`<div class="try">試試看：${q.tryq}<button onclick="this.nextElementSibling.style.display='block';this.remove()">看答案</button><div class="a">${q.tryA}</div></div>`:''}</div></details>`;
+  }
+  html+='</section>';
+}
+main.innerHTML=html;
+
+const total=document.querySelectorAll('.q').length,bad=document.querySelectorAll('.q[data-bad="1"]').length;
+document.getElementById('stats').textContent=`共 ${total} 題，被扣分 ${bad} 題`;
+document.querySelectorAll('.chip[data-f]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.toggle('on',x===b));
+  const onlyBad=b.dataset.f==='bad';
+  document.querySelectorAll('.q').forEach(q=>q.classList.toggle('hide',onlyBad&&q.dataset.bad!=='1'));
+});
+let open=false;
+document.getElementById('expand').onclick=e=>{open=!open;document.querySelectorAll('.q').forEach(q=>q.open=open);e.target.textContent=open?'全部收合':'全部展開';};
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</body>
+</html>
